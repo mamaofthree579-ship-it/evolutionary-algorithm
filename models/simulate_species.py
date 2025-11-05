@@ -1,16 +1,10 @@
-# simulate_species.py
-"""
-Simple simulation runner for the four species models.
-Runs synchronous timesteps and applies basic interspecies influence.
-Outputs a compact CSV-like log to stdout.
-"""
 import os
 import csv
-from species_model import SpeciesModel
-from naga_model import create_naga_model
-from ant_people_model import create_ant_people_model
-from winged_people_model import create_winged_model
-from trees_model import create_trees_model
+from species_model.py import SpeciesModel
+from naga_model.py import create_naga_model
+from ant_people_model.py import create_ant_people_model
+from winged_people_model.py import create_winged_model
+from trees_model.py import create_trees_model
 
 def run_simulation(steps=200, seed=42, verbose=True):
     # instantiate models (initial populations chosen heuristically)
