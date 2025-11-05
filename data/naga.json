@@ -1,0 +1,38 @@
+{
+  "id": "naga",
+  "common_name": "Naga",
+  "habitat": ["submerged caverns", "coastal estuaries", "underground rivers"],
+  "morphology": {
+    "primary": "amphibious humanoid",
+    "features": ["scaled dermis", "bio-luminescent markings", "webbed appendages", "prehensile tail"],
+    "special_adaptations": ["electroreception", "enhanced lung-water interface"]
+  },
+  "social_structure": {
+    "type": "hierarchical-communal",
+    "roles": ["memory-keeper", "hydro-engineer", "ritual-weaver", "forager"],
+    "decision_making": "council (weighted by resonance and knowledge)"
+  },
+  "communication": {
+    "channels": ["low-frequency clicks", "bio-luminescent patterning", "chemical cues"],
+    "range_notes": "short-to-medium range acoustic and visual patterning"
+  },
+  "technology": {
+    "materials": ["stone", "crystalline deposits", "structured-water systems"],
+    "notable_innovations": ["hydrodynamic filters", "reflective arrays", "sound-formed masonry"]
+  },
+  "lifespan_years": {"typical": 95, "max": 200},
+  "energy_source": ["omnivorous diet", "symbiotic chemo-phototroph microflora"],
+  "behavioral_traits": {
+    "tool_use_probability": 0.68,
+    "social_cohesion_index": 0.77,
+    "exploratory_tendency": 0.42,
+    "risk_aversion": 0.53
+  },
+  "simulation_parameters": {
+    "reproduction_rate": 0.04,
+    "mutation_rate": 0.0012,
+    "carrying_capacity": 12000,
+    "resource_consumption_per_capita": 1.0
+  },
+  "notes": "Semi-aquatic engineers that use structured water and acoustics for construction and symbol-based data encoding."
+}
