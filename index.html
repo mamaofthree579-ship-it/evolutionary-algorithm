@@ -1,118 +1,629 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Evolutionary Algorithm Project Hub</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/scrollreveal"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evolutionary Algorithm — Control & Visualizer</title>
+  <meta name="description" content="Control panel and visualizer for multi-species evolutionary algorithm." />
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#98a0b3; --accent:#6ee7b7; --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --success:#7ee787;
+      --danger:#ff6b6b;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071021 0%,var(--bg) 60%);color:#e6eef6;}
+    .app{max-width:1200px;margin:28px auto;padding:20px;display:grid;grid-template-columns: 360px 1fr;gap:20px;}
+    header{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:14px;border-radius:12px;background:linear-gradient(180deg,var(--glass),var(--glass-2));box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+    header h1{font-size:18px;margin:0}
+    header p{margin:0;color:var(--muted);font-size:13px}
+    .panel{background:linear-gradient(180deg,var(--card), #07101A);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.5);}
+    .left {display:flex;flex-direction:column;gap:16px;}
+    .module-list{display:flex;flex-direction:column;gap:8px;max-height:56vh;overflow:auto;padding-right:6px}
+    .module{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid transparent}
+    .module.active{background:linear-gradient(90deg, rgba(110,231,183,0.06), rgba(110,231,183,0.03));border-color: rgba(110,231,183,0.08)}
+    .module h3{margin:0;font-size:14px}
+    .module p{margin:0;color:var(--muted);font-size:12px}
+    .small{font-size:12px;color:var(--muted)}
+    .datasets{display:flex;flex-direction:column;gap:8px}
+    .dataset{display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01)}
+    .controls{display:flex;flex-direction:column;gap:12px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    .row{display:flex;gap:10px;align-items:center}
+    input[type="range"]{width:100%}
+    .btn{background:linear-gradient(90deg,var(--accent),#40d39a);border:none;color:#04201a;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    .btn.warn{background:linear-gradient(90deg,#ffb86b,#ff8a5b);color:#2b1100}
+    .meta{display:flex;gap:8px;flex-wrap:wrap}
+    main{display:grid;grid-template-rows:auto 1fr auto;gap:12px}
+    .visual{height:520px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#081423,#061018);display:flex;align-items:stretch}
+    .viz-left{width:320px;padding:12px;box-sizing:border-box;border-right:1px solid rgba(255,255,255,0.02)}
+    .viz-right{flex:1;position:relative}
+    canvas{width:100%;height:100%;display:block}
+    .log{height:160px;overflow:auto;background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+    footer{display:flex;justify-content:space-between;align-items:center;padding-top:8px}
+    .stat{display:flex;gap:8px;align-items:center}
+    .pill{background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+    .kpi{font-weight:700;color:var(--accent);margin-left:6px}
+    /* responsive */
+    @media (max-width:960px){
+      .app{grid-template-columns: 1fr; padding:12px;}
+      header{flex-direction:column;align-items:flex-start}
+      .visual{height:420px}
+      .viz-left{width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.02)}
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-gray-900 to-black text-gray-200 font-sans">
-
-  <!-- Header -->
-  <header class="text-center py-10 border-b border-gray-700">
-    <h1 class="text-4xl font-bold text-teal-400 mb-2">Evolutionary Algorithm Project Hub</h1>
-    <p class="text-gray-400 italic">“All species evolve together — harmonizing through time and purpose.”</p>
-  </header>
-
-  <!-- Project Sections -->
-  <main class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-8">
-    <section class="edu-module bg-gradient-to-b from-slate-800 to-slate-900 text-white rounded-2xl p-6 shadow-xl max-w-3xl mx-auto my-10">
-  <h2 class="text-2xl font-semibold mb-4">🌍 Evolutionary Insights</h2>
-  <p class="mb-4">Tap each concept to expand and learn more interactively:</p>
-
-  <div class="space-y-4">
-    <div class="edu-card bg-slate-700 rounded-xl p-4 cursor-pointer transition hover:bg-slate-600" data-topic="naga">
-      <h3 class="text-xl font-medium">🌀 The Naga Civilization</h3>
-      <div class="edu-content hidden mt-2 text-slate-300">
-        <p>Nagas are envisioned as semi-aquatic beings with a deep understanding of hydrodynamics and bio-symbolic engineering. Their learning modules explore how structure, water, and vibration interact.</p>
+<body>
+  <div class="app" role="application" aria-label="Evolutionary Algorithm Control Panel">
+    <header>
+      <div>
+        <h1>Evolutionary Algorithm Studio</h1>
+        <p>Multi-species, multi-environment simulation — refine modules, run simulations, visualize emergent behaviors.</p>
       </div>
-    </div>
-
-    <div class="edu-card bg-slate-700 rounded-xl p-4 cursor-pointer transition hover:bg-slate-600" data-topic="winged">
-      <h3 class="text-xl font-medium">🕊️ The Winged People</h3>
-      <div class="edu-content hidden mt-2 text-slate-300">
-        <p>The Winged People focus on air currents, resonance, and reflective navigation—linking physics and consciousness for cooperative learning.</p>
+      <div style="margin-left:auto;text-align:right">
+        <div class="small">Session:</div>
+        <div style="font-weight:700;color:var(--accent)">Field Node — Live</div>
       </div>
-    </div>
+    </header>
 
-    <div class="edu-card bg-slate-700 rounded-xl p-4 cursor-pointer transition hover:bg-slate-600" data-topic="trees">
-      <h3 class="text-xl font-medium">🌱 The Tree Network</h3>
-      <div class="edu-content hidden mt-2 text-slate-300">
-        <p>The trees illustrate symbiotic communication and ecological intelligence, teaching interconnectedness through visualization and sound.</p>
+    <!-- LEFT: Module selector + datasets + parameter presets -->
+    <aside class="left">
+      <div class="panel">
+        <h3 style="margin:0 0 8px 0">Modules</h3>
+        <div class="module-list" id="moduleList" role="list">
+          <!-- Modules populated by JS -->
+        </div>
       </div>
-    </div>
+
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:0">Datasets</h3>
+          <button class="btn ghost" id="addDatasetBtn" title="Add dataset">+ Add</button>
+        </div>
+        <div class="datasets" id="datasetList" style="margin-top:10px"></div>
+        <div style="margin-top:10px" class="small">Tip: Import CSV/JSON to seed simulations.</div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin:0 0 8px 0">Simulation Presets</h3>
+        <div class="meta" id="presets">
+          <button class="btn ghost" data-preset="balanced">Balanced</button>
+          <button class="btn ghost" data-preset="exploratory">Exploratory</button>
+          <button class="btn ghost" data-preset="conservative">Conservative</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN: controls, visualization, logs -->
+    <main>
+      <section class="panel controls" aria-label="Controls">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h2 style="margin:0">Simulation Controls</h2>
+            <div class="small">Tweak parameters below and press <strong>Run</strong>.</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button id="runBtn" class="btn">Run</button>
+            <button id="pauseBtn" class="btn ghost">Pause</button>
+            <button id="resetBtn" class="btn warn">Reset</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px">
+          <div>
+            <label for="popSize">Population size: <span id="popSizeVal" class="kpi">400</span></label>
+            <input type="range" id="popSize" min="50" max="2000" value="400" />
+          </div>
+          <div>
+            <label for="mutationRate">Mutation rate: <span id="mutationRateVal" class="kpi">0.04</span></label>
+            <input type="range" id="mutationRate" min="0" max="0.2" step="0.005" value="0.04" />
+          </div>
+          <div>
+            <label for="selectionPressure">Selection pressure: <span id="selectionVal" class="kpi">0.6</span></label>
+            <input type="range" id="selectionPressure" min="0.1" max="1" step="0.01" value="0.6" />
+          </div>
+          <div>
+            <label for="envVolatility">Environment volatility: <span id="envVolVal" class="kpi">0.25</span></label>
+            <input type="range" id="envVolatility" min="0" max="1" step="0.01" value="0.25" />
+          </div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+          <label style="margin:0 8px 0 0;"><input type="checkbox" id="enableBehavior" checked/> Enable behavioral plasticity</label>
+          <label style="margin:0 8px;"><input type="checkbox" id="enableAlternatePaths" /> Alternate intelligence paths</label>
+          <label style="margin:0 8px;"><input type="checkbox" id="logVerbose" /> Verbose logging</label>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn" id="exportCfg">Export config</button>
+          <button class="btn ghost" id="importCfg">Import config</button>
+          <input type="file" id="cfgFile" accept=".json" style="display:none" />
+        </div>
+      </section>
+
+      <section class="panel visual" aria-label="Visualization">
+        <div class="viz-left">
+          <h3 style="margin-top:0">Module Details</h3>
+          <div id="moduleDetails" class="small">Select a module to view details and refine local parameters.</div>
+
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.02);margin:12px 0" />
+          <div>
+            <h4 style="margin:0 0 6px 0">Local parameters</h4>
+            <div id="localParams" class="small">Select module first</div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.02);margin:12px 0" />
+          <div style="display:flex;gap:8px">
+            <button class="btn ghost" id="snapshot">Snapshot</button>
+            <button class="btn ghost" id="downloadData">Download results</button>
+          </div>
+        </div>
+
+        <div class="viz-right" aria-hidden="false">
+          <canvas id="vizCanvas"></canvas>
+          <div style="position:absolute;right:12px;top:12px;display:flex;gap:8px">
+            <div class="pill">Gen: <span id="genCounter">0</span></div>
+            <div class="pill">Best Fitness: <span id="bestFitness">0.00</span></div>
+            <div class="pill">Diversity: <span id="diversity">0.00</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:0">Run Log</h3>
+          <div class="small">Messages from simulation and system</div>
+        </div>
+        <div id="logArea" class="log" role="log" aria-live="polite"></div>
+
+        <footer>
+          <div class="stat">
+            <div class="pill">Status</div>
+            <div id="status" style="margin-left:8px;color:var(--muted)">Idle</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="small">Seed:</div>
+            <div class="pill" id="seedId">auto</div>
+          </div>
+        </footer>
+      </section>
+    </main>
   </div>
-</section>
-
-<script>
-document.querySelectorAll('.edu-card').forEach(card => {
-  card.addEventListener('click', () => {
-    const content = card.querySelector('.edu-content');
-    content.classList.toggle('hidden');
-  });
-});
-</script>
-    
-    <!-- Naga Project -->
-    <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg" id="naga">
-      <h2 class="text-2xl font-semibold text-teal-300 mb-2">Naga Evolutionary Project</h2>
-      <p class="text-sm text-gray-400 mb-4">Status: <span class="text-green-400">Active</span></p>
-      <ul class="list-disc list-inside space-y-1">
-        <li>Amphibious, bioluminescent beings evolving hydro-symbolic communication.</li>
-        <li>Advanced understanding of hydrodynamics and energy manipulation.</li>
-        <li>Next Focus: Refine water resonance data correlation.</li>
-      </ul>
-    </section>
-
-    <!-- Ant People -->
-    <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg" id="ant">
-      <h2 class="text-2xl font-semibold text-amber-300 mb-2">Ant People Project</h2>
-      <p class="text-sm text-gray-400 mb-4">Status: <span class="text-green-400">Active</span></p>
-      <ul class="list-disc list-inside space-y-1">
-        <li>Subterranean civilization with caste-based structure and metallurgical skill.</li>
-        <li>Possible hydro-engineering parallels to Naga settlements.</li>
-        <li>Next Focus: Structural resonance mapping across ancient habitats.</li>
-      </ul>
-    </section>
-
-    <!-- Winged People -->
-    <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg" id="winged">
-      <h2 class="text-2xl font-semibold text-sky-300 mb-2">Winged People Project</h2>
-      <p class="text-sm text-gray-400 mb-4">Status: <span class="text-green-400">Active</span></p>
-      <ul class="list-disc list-inside space-y-1">
-        <li>Aerial civilization using reflective markers for coordination and territory mapping.</li>
-        <li>Developed solar harmonization technologies.</li>
-        <li>Next Focus: Flight resonance and environmental harmonics study.</li>
-      </ul>
-    </section>
-
-    <!-- Tree Intelligence -->
-    <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg" id="trees">
-      <h2 class="text-2xl font-semibold text-lime-300 mb-2">Tree Communication Project</h2>
-      <p class="text-sm text-gray-400 mb-4">Status: <span class="text-yellow-400">In Development</span></p>
-      <ul class="list-disc list-inside space-y-1">
-        <li>Exploration of bioelectric communication between plant species.</li>
-        <li>Potential symbiotic link to fungal networks and sentient data exchange.</li>
-        <li>Next Focus: Long-range resonance patterns across forest systems.</li>
-      </ul>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center py-6 text-gray-500 border-t border-gray-700 mt-10">
-    <p>&copy; 2025 Evolutionary Research Collective | Designed with purpose and harmony.</p>
-  </footer>
 
   <script>
-    ScrollReveal().reveal('section', {
-      distance: '30px',
-      duration: 800,
-      easing: 'ease-out',
-      origin: 'bottom',
-      interval: 200
+    /*************************************************************************
+     * Evolutionary Algorithm Page — Client-side simulation stub & UI
+     *
+     * This script implements:
+     * - UI wiring for parameter controls and presets
+     * - Module selection & dataset list stubs
+     * - A fake running "simulation" that updates visual network, KPIs and logs
+     * - Export/import config and snapshot functionality
+     *
+     * NOTE: This is a front-end control panel & simulator mock. Replace the
+     * "simulateStep" and internal state with your real engine calls / web API
+     * to connect to the actual evolutionary algorithm backend.
+     *************************************************************************/
+
+    // --- Basic app state
+    const state = {
+      modules: [
+        { id:'evoPressures', title:'Evolutionary Pressures', desc:'Environment, predators, food scarcity; drives selection.' },
+        { id:'intelligence', title:'Intelligence & Communication', desc:'Neural complexity, tool use, communication channels.' },
+        { id:'behavior', title:'Selective Behavior Reinforcement', desc:'Cultural and learned behaviors feeding into heredity.' },
+        { id:'bipedal', title:'Bipedalism & Physiology', desc:'Anatomical/locomotion shifts, endurance selection.' },
+        { id:'alternative', title:'Alternative Evolutionary Paths', desc:'Cetacean, cephalopod, avian, fungal, exoplanetary biochemistry.' },
+      ],
+      datasets: [
+        { id:'hominid_v1', name:'Hominid Evolution Pathways', size:12400 },
+        { id:'dolphin_v2', name:'Dolphin & Aquatic Intelligence', size:4300 },
+        { id:'fungi_net', name:'Fungal Networks Dataset', size:980 }
+      ],
+      selectedModule: 'evoPressures',
+      sim: {
+        running:false,
+        paused:false,
+        gen:0,
+        bestFitness:0,
+        diversity:0,
+        populationSize: 400,
+        mutationRate: 0.04,
+        selectionPressure: 0.6,
+        envVolatility: 0.25,
+        enableBehavior: true,
+        enableAlternatePaths: false,
+        verbose:false,
+        seed: Math.random().toString(36).slice(2,10)
+      }
+    };
+
+    // --- DOM refs
+    const moduleList = document.getElementById('moduleList');
+    const moduleDetails = document.getElementById('moduleDetails');
+    const datasetList = document.getElementById('datasetList');
+    const localParams = document.getElementById('localParams');
+    const genCounter = document.getElementById('genCounter');
+    const bestFitness = document.getElementById('bestFitness');
+    const diversity = document.getElementById('diversity');
+    const logArea = document.getElementById('logArea');
+    const statusEl = document.getElementById('status');
+    const seedIdEl = document.getElementById('seedId');
+    const runBtn = document.getElementById('runBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const popSize = document.getElementById('popSize');
+    const popSizeVal = document.getElementById('popSizeVal');
+    const mutationRate = document.getElementById('mutationRate');
+    const mutationRateVal = document.getElementById('mutationRateVal');
+    const selectionPressure = document.getElementById('selectionPressure');
+    const selectionVal = document.getElementById('selectionVal');
+    const envVolatility = document.getElementById('envVolatility');
+    const envVolVal = document.getElementById('envVolVal');
+    const enableBehavior = document.getElementById('enableBehavior');
+    const enableAlternatePaths = document.getElementById('enableAlternatePaths');
+    const logVerbose = document.getElementById('logVerbose');
+    const presets = document.getElementById('presets');
+
+    // canvas
+    const canvas = document.getElementById('vizCanvas');
+    const ctx = canvas.getContext('2d');
+    let width=0, height=0, nodes=[], links=[];
+    let simInterval = null;
+
+    // --- UI render functions
+    function renderModuleList(){
+      moduleList.innerHTML = '';
+      state.modules.forEach(m=>{
+        const el = document.createElement('div');
+        el.className = 'module' + (state.selectedModule===m.id ? ' active' : '');
+        el.tabIndex = 0;
+        el.setAttribute('role','listitem');
+        el.innerHTML = `<div style="flex:1">
+          <h3>${m.title}</h3>
+          <p>${m.desc}</p>
+        </div>`;
+        el.addEventListener('click',()=>{ state.selectedModule=m.id; renderModuleList(); renderModuleDetails(); });
+        moduleList.appendChild(el);
+      });
+    }
+
+    function renderModuleDetails(){
+      const m = state.modules.find(x=>x.id===state.selectedModule);
+      moduleDetails.innerHTML = `<strong>${m.title}</strong><div class="small" style="margin-top:6px">${m.desc}</div>`;
+      // example local params (extendable)
+      localParams.innerHTML = '';
+      const p1 = document.createElement('div');
+      p1.innerHTML = `<label class="small">Local mutation influence</label><input type="range" min="0" max="1" step="0.01" value="0.2" oninput="this.nextElementSibling.textContent=this.value"/><div style="text-align:right;color:var(--muted)"aria-hidden="true">0.2</div>`;
+      localParams.appendChild(p1);
+    }
+
+    function renderDatasets(){
+      datasetList.innerHTML = '';
+      state.datasets.forEach(d=>{
+        const row = document.createElement('div');
+        row.className='dataset';
+        row.innerHTML = `<div>
+            <div style="font-weight:600">${d.name}</div>
+            <div class="small">${d.size} records</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn ghost" onclick="inspectDataset('${d.id}')">Inspect</button>
+            <button class="btn ghost" onclick="removeDataset('${d.id}')">Remove</button>
+          </div>`;
+        datasetList.appendChild(row);
+      });
+    }
+
+    // dataset helpers (stub)
+    function inspectDataset(id){
+      const d = state.datasets.find(x=>x.id===id);
+      appendLog(`Dataset inspect: ${d.name} (${d.size} records)`);
+      alert(`Dataset: ${d.name}\nRecords: ${d.size}\n\n(Use backend tools to view sample rows)`);
+    }
+    function removeDataset(id){
+      state.datasets = state.datasets.filter(x=>x.id!==id);
+      renderDatasets();
+      appendLog(`Dataset removed: ${id}`);
+    }
+
+    // --- control wiring
+    popSize.addEventListener('input',()=>{ state.sim.populationSize = Number(popSize.value); popSizeVal.textContent = state.sim.populationSize; });
+    mutationRate.addEventListener('input',()=>{ state.sim.mutationRate = Number(mutationRate.value); mutationRateVal.textContent = Number(state.sim.mutationRate).toFixed(3); });
+    selectionPressure.addEventListener('input',()=>{ state.sim.selectionPressure = Number(selectionPressure.value); selectionVal.textContent = Number(state.sim.selectionPressure).toFixed(2); });
+    envVolatility.addEventListener('input',()=>{ state.sim.envVolatility = Number(envVolatility.value); envVolVal.textContent = Number(state.sim.envVolatility).toFixed(2); });
+    enableBehavior.addEventListener('change',()=>{ state.sim.enableBehavior = enableBehavior.checked; });
+    enableAlternatePaths.addEventListener('change',()=>{ state.sim.enableAlternatePaths = enableAlternatePaths.checked; });
+    logVerbose.addEventListener('change',()=>{ state.sim.verbose = logVerbose.checked; });
+
+    presets.querySelectorAll('button').forEach(b=>{
+      b.addEventListener('click', e=>{
+        const p = e.target.dataset.preset;
+        applyPreset(p);
+      });
     });
+
+    function applyPreset(key){
+      if(key==='balanced'){
+        popSize.value = 600; popSize.dispatchEvent(new Event('input'));
+        mutationRate.value = 0.03; mutationRate.dispatchEvent(new Event('input'));
+        selectionPressure.value = 0.6; selectionPressure.dispatchEvent(new Event('input'));
+        envVolatility.value = 0.25; envVolatility.dispatchEvent(new Event('input'));
+      } else if(key==='exploratory'){
+        popSize.value = 1200; popSize.dispatchEvent(new Event('input'));
+        mutationRate.value = 0.12; mutationRate.dispatchEvent(new Event('input'));
+        selectionPressure.value = 0.4; selectionPressure.dispatchEvent(new Event('input'));
+        envVolatility.value = 0.6; envVolatility.dispatchEvent(new Event('input'));
+      } else if(key==='conservative'){
+        popSize.value = 250; popSize.dispatchEvent(new Event('input'));
+        mutationRate.value = 0.01; mutationRate.dispatchEvent(new Event('input'));
+        selectionPressure.value = 0.8; selectionPressure.dispatchEvent(new Event('input'));
+        envVolatility.value = 0.12; envVolatility.dispatchEvent(new Event('input'));
+      }
+      appendLog(`Preset applied: ${key}`);
+    }
+
+    // Run / Pause / Reset
+    runBtn.addEventListener('click', startSimulation);
+    pauseBtn.addEventListener('click', ()=>{ state.sim.paused = !state.sim.paused; pauseBtn.textContent = state.sim.paused ? 'Resume' : 'Pause'; statusEl.textContent = state.sim.paused ? 'Paused' : 'Running'; });
+    resetBtn.addEventListener('click', resetSimulation);
+
+    // export/import
+    document.getElementById('exportCfg').addEventListener('click', ()=>{
+      const cfg = JSON.stringify({ sim: state.sim, modules: state.modules }, null, 2);
+      downloadText(cfg, `evo_config_${Date.now()}.json`);
+    });
+    document.getElementById('importCfg').addEventListener('click', ()=> document.getElementById('cfgFile').click());
+    document.getElementById('cfgFile').addEventListener('change', function(evt){
+      const f = evt.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try{
+          const obj = JSON.parse(e.target.result);
+          if(obj.sim){ Object.assign(state.sim, obj.sim); applyStateToUI(); appendLog('Config imported'); }
+        }catch(err){ appendLog('Invalid config file', true); }
+      };
+      reader.readAsText(f);
+    });
+
+    // Snapshot and download
+    document.getElementById('snapshot').addEventListener('click', ()=> {
+      const dataURL = canvas.toDataURL('image/png');
+      downloadDataUrl(dataURL, `snapshot_${Date.now()}.png`);
+    });
+    document.getElementById('downloadData').addEventListener('click', ()=> {
+      const res = { gen: state.sim.gen, bestFitness: state.sim.bestFitness, diversity: state.sim.diversity, seed: state.sim.seed };
+      downloadText(JSON.stringify(res,null,2), `results_${Date.now()}.json`);
+    });
+
+    function applyStateToUI(){
+      popSize.value = state.sim.populationSize; popSizeVal.textContent = state.sim.populationSize;
+      mutationRate.value = state.sim.mutationRate; mutationRateVal.textContent = Number(state.sim.mutationRate).toFixed(3);
+      selectionPressure.value = state.sim.selectionPressure; selectionVal.textContent = Number(state.sim.selectionPressure).toFixed(2);
+      envVolatility.value = state.sim.envVolatility; envVolVal.textContent = Number(state.sim.envVolatility).toFixed(2);
+      enableBehavior.checked = !!state.sim.enableBehavior;
+      enableAlternatePaths.checked = !!state.sim.enableAlternatePaths;
+      logVerbose.checked = !!state.sim.verbose;
+    }
+
+    // --- Logging utility
+    function appendLog(msg, isError=false){
+      const time = new Date().toISOString().substr(11,8);
+      const line = document.createElement('div');
+      line.textContent = `[${time}] ${msg}`;
+      line.style.color = isError ? 'var(--danger)' : 'var(--muted)';
+      logArea.appendChild(line);
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    // --- Canvas & visualization helpers
+    function resizeCanvas(){
+      const r = window.devicePixelRatio || 1;
+      width = canvas.clientWidth; height = canvas.clientHeight;
+      canvas.width = Math.floor(width * r); canvas.height = Math.floor(height * r);
+      ctx.setTransform(r,0,0,r,0,0);
+    }
+    window.addEventListener('resize', ()=> { resizeCanvas(); draw(); });
+
+    function initNetwork(){
+      nodes = [];
+      links = [];
+      const n = Math.max(20, Math.round(state.sim.populationSize / 10));
+      for(let i=0;i<n;i++){
+        nodes.push({
+          id:i,
+          x: Math.random()*width,
+          y: Math.random()*height,
+          vx:0, vy:0,
+          fitness: Math.random(),
+          species: ['human','winged','oceanic','crystal'][Math.floor(Math.random()*4)]
+        });
+      }
+      // create links randomly
+      for(let i=0;i< Math.floor(n*1.6); i++){
+        const a = Math.floor(Math.random()*n), b = Math.floor(Math.random()*n);
+        if(a!==b) links.push({ source:a, target:b, strength:Math.random()*0.6 });
+      }
+    }
+
+    function draw(){
+      if(!ctx) return;
+      ctx.clearRect(0,0,width,height);
+      // background subtle grid
+      ctx.fillStyle = 'rgba(6,16,26,0.6)';
+      ctx.fillRect(0,0,width,height);
+
+      // draw links
+      ctx.lineWidth = 1;
+      links.forEach(l=>{
+        const a = nodes[l.source], b = nodes[l.target];
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(110,231,183,${0.08 + l.strength*0.2})`;
+        ctx.moveTo(a.x,a.y);
+        ctx.lineTo(b.x,b.y);
+        ctx.stroke();
+      });
+
+      // draw nodes
+      nodes.forEach(n=>{
+        const grad = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,18);
+        const color = speciesColor(n.species);
+        grad.addColorStop(0, `rgba(${color.r},${color.g},${color.b},0.9)`);
+        grad.addColorStop(0.6, `rgba(${color.r},${color.g},${color.b},0.22)`);
+        grad.addColorStop(1, `rgba(2,6,10,0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 8 + n.fitness*8, 0, Math.PI*2);
+        ctx.fill();
+
+        // subtle outline
+        ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+        ctx.stroke();
+      });
+    }
+
+    function speciesColor(spec){
+      switch(spec){
+        case 'human': return {r:110,g:231,b:183}; // mint
+        case 'winged': return {r:180,g:220,b:255}; // sky
+        case 'oceanic': return {r:120,g:190,b:255}; // blue
+        case 'crystal': return {r:240,g:200,b:255}; // violet
+        default: return {r:180,g:200,b:190};
+      }
+    }
+
+    // --- Simulation loop (stub) - replace with real compute or API calls
+    function startSimulation(){
+      if(state.sim.running){ appendLog('Simulation already running'); return; }
+      state.sim.running = true;
+      state.sim.paused = false;
+      statusEl.textContent = 'Running';
+      state.sim.seed = Math.random().toString(36).slice(2,10);
+      seedIdEl.textContent = state.sim.seed;
+      applyStateToUI();
+      appendLog('Simulation started (local demo mode). Seed: ' + state.sim.seed);
+      initNetwork();
+      draw();
+      // simple "evolution" steps every 600ms
+      simInterval = setInterval(()=> {
+        if(state.sim.paused) return;
+        simulateStep();
+        draw();
+      }, 600);
+    }
+
+    function stopSimulation(){
+      if(simInterval) clearInterval(simInterval);
+      state.sim.running = false;
+      statusEl.textContent = 'Idle';
+      appendLog('Simulation stopped.');
+    }
+
+    function resetSimulation(){
+      stopSimulation();
+      state.sim.gen = 0;
+      state.sim.bestFitness = 0;
+      state.sim.diversity = 0;
+      genCounter.textContent = state.sim.gen;
+      bestFitness.textContent = state.sim.bestFitness.toFixed(2);
+      diversity.textContent = state.sim.diversity.toFixed(2);
+      // reinit nodes as snapshot
+      initNetwork();
+      draw();
+      appendLog('Simulation reset.');
+    }
+
+    function simulateStep(){
+      // This is a **placeholder** evolutionary step — replace with real algorithm steps.
+      state.sim.gen += 1;
+
+      // mutate node fitness slightly influenced by mutationRate and envVolatility
+      const mRate = state.sim.mutationRate;
+      const env = state.sim.envVolatility;
+      nodes.forEach(n=>{
+        // apply small drift
+        n.fitness += (Math.random()-0.5) * mRate * 2;
+        // environment pressure reduces or increases fitness randomly by env volatility
+        n.fitness += (Math.random()-0.5) * env * 0.2;
+        // clamp
+        n.fitness = Math.max(0, Math.min(1, n.fitness));
+        // slight movement according to fitness and small random velocity
+        n.vx += (Math.random()-0.5)*0.6; n.vy += (Math.random()-0.5)*0.6;
+        const speed = 0.06 + (1 - n.fitness)*0.4;
+        n.x += n.vx * speed; n.y += n.vy * speed;
+        // wrap-around edges
+        if(n.x < 0) n.x = width + n.x; if(n.x > width) n.x = n.x - width;
+        if(n.y < 0) n.y = height + n.y; if(n.y > height) n.y = n.y - height;
+        // slow down velocities
+        n.vx *= 0.96; n.vy *= 0.96;
+      });
+
+      // recompute best fitness and diversity
+      const fitnessVals = nodes.map(n=>n.fitness);
+      const best = Math.max(...fitnessVals);
+      const avg = fitnessVals.reduce((a,b)=>a+b,0)/fitnessVals.length;
+      const diversityVal = fitnessVals.reduce((s,v)=> s + Math.abs(v - avg),0)/fitnessVals.length;
+
+      state.sim.bestFitness = best;
+      state.sim.diversity = diversityVal;
+
+      // visual tweak: adjust link strengths slightly
+      links.forEach(l=> l.strength = Math.max(0.02, Math.min(1, l.strength + (Math.random()-0.5)*0.03)));
+
+      genCounter.textContent = state.sim.gen;
+      bestFitness.textContent = state.sim.bestFitness.toFixed(3);
+      diversity.textContent = state.sim.diversity.toFixed(3);
+
+      // occasionally log important events
+      if(state.sim.gen % 5 === 0){
+        appendLog(`Gen ${state.sim.gen}: best=${state.sim.bestFitness.toFixed(3)}, diversity=${state.sim.diversity.toFixed(3)}`);
+      }
+      if(state.sim.verbose && Math.random() < 0.25){
+        appendLog(`Verbose: sample fitness snapshot [${fitnessVals.slice(0,6).map(v=>v.toFixed(2)).join(', ')}]`);
+      }
+      // auto-stop when reaching an arbitrary target (demo)
+      if(state.sim.gen >= 2000){
+        appendLog('Reached demo generation limit. Stopping.');
+        stopSimulation();
+      }
+    }
+
+    // utility downloads
+    function downloadText(text, filename){
+      const blob = new Blob([text], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      downloadDataUrl(url, filename);
+      setTimeout(()=> URL.revokeObjectURL(url), 2000);
+    }
+    function downloadDataUrl(dataUrl, filename){
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    // init UI
+    function boot(){
+      renderModuleList();
+      renderModuleDetails();
+      renderDatasets();
+      applyStateToUI();
+      resizeCanvas();
+      initNetwork();
+      draw();
+      appendLog('Interface ready. Adjust parameters and press Run.');
+    }
+    boot();
+
+    // Expose a couple of functions for quick debug (from console)
+    window._state = state;
+    window._startSim = startSimulation;
+    window._stopSim = stopSimulation;
+    window._resetSim = resetSimulation;
   </script>
 </body>
 </html>
