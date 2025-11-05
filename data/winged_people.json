@@ -1,0 +1,38 @@
+{
+  "id": "winged_people",
+  "common_name": "Winged People",
+  "habitat": ["cliffside roosts", "aerial colonies", "high plateaus"],
+  "morphology": {
+    "primary": "avian-humanoid",
+    "features": ["lightweight bone lattice", "feather-like membranes", "expanded air-sacs"],
+    "special_adaptations": ["UV/IR sensitive vision", "piezoelectric feather microstructures"]
+  },
+  "social_structure": {
+    "type": "council-of-roles",
+    "roles": ["vision-keepers", "navigators", "harmonic-weavers", "diplomats"],
+    "decision_making": "rotating-meritocratic councils with ritual resonance tests"
+  },
+  "communication": {
+    "channels": ["complex song patterns", "visual glyph flight displays", "ultrasonic chirps"],
+    "range_notes": "long-range acoustic and visual signaling; geospatial glyph mapping"
+  },
+  "technology": {
+    "materials": ["lightweight alloys", "reflective composites", "aerodynamic structures"],
+    "notable_innovations": ["reflective beacons", "aero-architectures", "solar-sail constructs"]
+  },
+  "lifespan_years": {"typical": 120, "max": 300},
+  "energy_source": ["high-energy omnivory", "bio-solar amplification via feathers"],
+  "behavioral_traits": {
+    "tool_use_probability": 0.45,
+    "social_cohesion_index": 0.68,
+    "exploratory_tendency": 0.84,
+    "risk_aversion": 0.3
+  },
+  "simulation_parameters": {
+    "reproduction_rate": 0.02,
+    "mutation_rate": 0.0018,
+    "carrying_capacity": 8000,
+    "resource_consumption_per_capita": 1.4
+  },
+  "notes": "Sky-oriented species with strong navigational culture; ritualized leadership and aerial engineering."
+}
