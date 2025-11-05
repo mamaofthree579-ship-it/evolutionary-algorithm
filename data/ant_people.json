@@ -1,0 +1,38 @@
+{
+  "id": "ant_people",
+  "common_name": "Ant People",
+  "habitat": ["subterranean networks", "multi-tier mound systems"],
+  "morphology": {
+    "primary": "eusocial humanoid-insectoid",
+    "features": ["chitinous plating", "modular limbs", "mandibular tool interfaces"],
+    "special_adaptations": ["airflow-based thermo-regulation", "chemocommunicative exocrine glands"]
+  },
+  "social_structure": {
+    "type": "eusocial-caste",
+    "roles": ["workers", "soldiers", "architects", "queen/central-coordinator"],
+    "decision_making": "distributed via pheromonal gradients and stigmergic signals"
+  },
+  "communication": {
+    "channels": ["pheromones", "substrate vibrations", "coordinated movement patterns"],
+    "range_notes": "primarily local but can scale through chained signaling"
+  },
+  "technology": {
+    "materials": ["metallic ores", "ceramic composites", "biopolymers"],
+    "notable_innovations": ["hydraulic tunnel engineering", "biofiltration", "energy-harvesting arrays"]
+  },
+  "lifespan_years": {"typical_worker": 8, "queen": 60},
+  "energy_source": ["fungal agriculture", "detritus processing", "mined minerals"],
+  "behavioral_traits": {
+    "tool_use_probability": 0.55,
+    "social_cohesion_index": 0.92,
+    "exploratory_tendency": 0.28,
+    "risk_aversion": 0.65
+  },
+  "simulation_parameters": {
+    "reproduction_rate": 0.12,
+    "mutation_rate": 0.0009,
+    "carrying_capacity": 300000,
+    "resource_consumption_per_capita": 0.2
+  },
+  "notes": "Highly cooperative, efficient builders with caste-driven specialization and strong stigmergic problem-solving."
+}
