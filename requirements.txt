@@ -1,0 +1,30 @@
+# Core scientific libraries
+numpy
+pandas
+scipy
+matplotlib
+networkx
+
+# Machine learning and simulation
+scikit-learn
+deap                # Evolutionary algorithms
+mesa                # Agent-based modeling
+sympy               # Symbolic systems and equations
+
+# Data persistence and analysis
+h5py
+sqlalchemy
+
+# Geospatial & structural analysis
+shapely
+geopandas
+rasterio
+
+# Visualization and exploration
+plotly
+seaborn
+
+# Optional: AI/LLM integration for generative insights
+transformers
+torch
+sentencepiece
