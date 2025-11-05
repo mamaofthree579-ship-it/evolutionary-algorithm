@@ -18,6 +18,7 @@ An open-source project exploring adaptive, parallel evolutionary models to simul
 git clone https://github.com/yourusername/evolutionary-algorithm.git
 cd evolutionary-algorithm
 pip install -r requirements.txt
+```
 
 🧩 Run the Simulation
 
