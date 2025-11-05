@@ -17,7 +17,43 @@
 
   <!-- Project Sections -->
   <main class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-8">
+    <section class="edu-module bg-gradient-to-b from-slate-800 to-slate-900 text-white rounded-2xl p-6 shadow-xl max-w-3xl mx-auto my-10">
+  <h2 class="text-2xl font-semibold mb-4">🌍 Evolutionary Insights</h2>
+  <p class="mb-4">Tap each concept to expand and learn more interactively:</p>
 
+  <div class="space-y-4">
+    <div class="edu-card bg-slate-700 rounded-xl p-4 cursor-pointer transition hover:bg-slate-600" data-topic="naga">
+      <h3 class="text-xl font-medium">🌀 The Naga Civilization</h3>
+      <div class="edu-content hidden mt-2 text-slate-300">
+        <p>Nagas are envisioned as semi-aquatic beings with a deep understanding of hydrodynamics and bio-symbolic engineering. Their learning modules explore how structure, water, and vibration interact.</p>
+      </div>
+    </div>
+
+    <div class="edu-card bg-slate-700 rounded-xl p-4 cursor-pointer transition hover:bg-slate-600" data-topic="winged">
+      <h3 class="text-xl font-medium">🕊️ The Winged People</h3>
+      <div class="edu-content hidden mt-2 text-slate-300">
+        <p>The Winged People focus on air currents, resonance, and reflective navigation—linking physics and consciousness for cooperative learning.</p>
+      </div>
+    </div>
+
+    <div class="edu-card bg-slate-700 rounded-xl p-4 cursor-pointer transition hover:bg-slate-600" data-topic="trees">
+      <h3 class="text-xl font-medium">🌱 The Tree Network</h3>
+      <div class="edu-content hidden mt-2 text-slate-300">
+        <p>The trees illustrate symbiotic communication and ecological intelligence, teaching interconnectedness through visualization and sound.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.edu-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const content = card.querySelector('.edu-content');
+    content.classList.toggle('hidden');
+  });
+});
+</script>
+    
     <!-- Naga Project -->
     <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg" id="naga">
       <h2 class="text-2xl font-semibold text-teal-300 mb-2">Naga Evolutionary Project</h2>
