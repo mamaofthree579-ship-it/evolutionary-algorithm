@@ -1,0 +1,38 @@
+{
+  "id": "trees",
+  "common_name": "Tree Kin",
+  "habitat": ["old-growth forests", "sacred groves", "coastal canopies"],
+  "morphology": {
+    "primary": "long-lived sessile organisms",
+    "features": ["deep root networks", "mycorrhizal symbiosis", "sap-based nutrient transfer"],
+    "special_adaptations": ["electrochemical signaling via roots", "volatile organic signaling via leaves"]
+  },
+  "social_structure": {
+    "type": "networked-communion",
+    "roles": ["memory-bearers", "nurse-parents", "seed-keepers", "nutrient-routers"],
+    "decision_making": "distributed through mycelial and root electrical signaling"
+  },
+  "communication": {
+    "channels": ["mycelial networks", "volatile organic compounds", "root electrical pulses"],
+    "range_notes": "long-range via fungal networks; local via root contact"
+  },
+  "technology": {
+    "materials": ["cellulose composites", "resinous seals"],
+    "notable_innovations": ["structured-root engineering", "microclimate shaping", "seed-dispensal patterning"]
+  },
+  "lifespan_years": {"typical": 200, "max": 5000},
+  "energy_source": ["photosynthesis", "root-exchanged nutrients via mycorrhiza"],
+  "behavioral_traits": {
+    "tool_use_probability": 0.02,
+    "social_cohesion_index": 0.96,
+    "exploratory_tendency": 0.05,
+    "risk_aversion": 0.9
+  },
+  "simulation_parameters": {
+    "reproduction_rate": 0.001,
+    "mutation_rate": 0.0001,
+    "carrying_capacity": 1000000,
+    "resource_consumption_per_capita": 0.05
+  },
+  "notes": "Long-lived networked intelligence that stabilizes local ecosystems and stores generational memory."
+}
