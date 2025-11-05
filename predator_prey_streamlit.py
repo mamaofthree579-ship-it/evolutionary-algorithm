@@ -70,4 +70,3 @@ if st.checkbox("Show Interpretive Narrative"):
         stabilizing the system. The lower the variance, the greater the harmony achieved.
         """
     )
-
