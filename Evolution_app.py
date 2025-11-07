@@ -1,5 +1,5 @@
 import React
-import {
+import 
   BarChart,
   Bar,
   XAxis,
@@ -10,7 +10,7 @@ import {
   Line,
   CartesianGrid,
   Legend,
-} from 'recharts';
+  from 'recharts';
 
 // Example single-file React component for previewing an evolutionary algorithm UI.
 // Uses Tailwind for layout. Expects `recharts` to be available in the environment.
