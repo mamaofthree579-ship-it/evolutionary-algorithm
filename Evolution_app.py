@@ -1,17 +1,17 @@
 import React
 import Recharts
 
-// Example single-file React component for previewing an evolutionary algorithm UI.
-// Uses Tailwind for layout. Expects `recharts` to be available in the environment.
+# Example single-file React component for previewing an evolutionary algorithm UI.
+# Uses Tailwind for layout. Expects `recharts` to be available in the environment.
 
 export default function EvolutionaryDashboard() {
-  // --- Sample dataset and state ---
+  # --- Sample dataset and state ---
   const [population, setPopulation] = useState(generatePopulation(100));
   const [fitnessBins, setFitnessBins] = useState([]);
   const [lineages, setLineages] = useState(generateLineages(6));
   const [selectedIndividual, setSelectedIndividual] = useState(null);
 
-  // Genome editor state
+  # Genome editor state
   const [genomeString, setGenomeString] = useState(population[0]?.genome || '');
   const [mutationRate, setMutationRate] = useState(0.05);
   const [crossoverRate, setCrossoverRate] = useState(0.5);
@@ -20,7 +20,7 @@ export default function EvolutionaryDashboard() {
     updateFitnessBins(population);
   }, [population]);
 
-  // --- Helpers & simulation primitives ---
+  # --- Helpers & simulation primitives ---
   function generatePopulation(n) {
     const pop = Array.from({ length: n }).map((_, i) => {
       const genome = randomGenome(32);
@@ -79,9 +79,9 @@ export default function EvolutionaryDashboard() {
     setFitnessBins(counts);
   }
 
-  // --- UI actions ---
+  # --- UI actions ---
   function runEvolutionStep() {
-    // simple selection + mutation step for demo
+    # simple selection + mutation step for demo
     const sorted = [...population].sort((a, b) => b.fitness - a.fitness);
     const survivors = sorted.slice(0, Math.max(2, Math.floor(sorted.length * (1 - 0.3))));
 
@@ -100,7 +100,7 @@ export default function EvolutionaryDashboard() {
   }
 
   function sampleWeighted(list) {
-    // fitness-weighted random pick
+    # fitness-weighted random pick
     const total = list.reduce((s, x) => s + x.fitness, 0);
     let r = Math.random() * total;
     for (const it of list) {
@@ -123,7 +123,7 @@ export default function EvolutionaryDashboard() {
   }
 
   function updateLineageTree(prev, children) {
-    // attach children as flat new nodes for demo
+    # attach children as flat new nodes for demo
     const copy = JSON.parse(JSON.stringify(prev));
     children.forEach((child) => {
       copy[0].children.push({ id: child.id, name: child.id, children: [] });
@@ -137,9 +137,9 @@ export default function EvolutionaryDashboard() {
     setPopulation(newPop);
   }
 
-  // --- Small lineage tree renderer ---
+  # --- Small lineage tree renderer ---
   function TreeSVG({ data, width = 400, nodeSize = { x: 140, y: 60 } }) {
-    // flatten tree to nodes with positions (simple algorithm)
+    # flatten tree to nodes with positions (simple algorithm)
     const nodes = [];
     const links = [];
     let x = 0;
