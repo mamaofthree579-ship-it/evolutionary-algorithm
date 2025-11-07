@@ -200,7 +200,7 @@ export default function EvolutionaryDashboard() {
   return (
     <div className="p-6 space-y-6 font-sans">
       <header className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Evolutionary Algorithm — Visual Tools</h1>
+        <h1 className="text-2xl font-bold">Evolutionary Algorithm Visual Tools</h1>
         <div className="flex gap-2">
           <button
             onClick={runEvolutionStep}
