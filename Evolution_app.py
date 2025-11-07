@@ -75,7 +75,7 @@ export default function EvolutionaryDashboard() {
   }
 
   function genomeFitness(genome) {
-    // toy fitness: proportion of 1s plus small random
+    # toy fitness: proportion of 1s plus small random
     const ones = genome.split('').filter((c) => c === '1').length;
     return +(ones / genome.length + Math.random() * 0.08).toFixed(3);
   }
